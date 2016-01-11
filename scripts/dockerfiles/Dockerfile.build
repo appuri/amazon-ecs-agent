@@ -20,5 +20,7 @@ VOLUME ['/out']
 RUN mkdir -p /go/src/github.com/aws/
 
 WORKDIR /go/src/github.com/aws/amazon-ecs-agent
+ADD ./Makefile /out/
+RUN chmod +r /out/Makefile
 
 CMD ["make", "static"]

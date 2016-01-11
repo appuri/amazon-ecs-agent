@@ -520,9 +520,33 @@ func (task *Task) dockerHostConfig(container *Container, dockerContainerMap map[
 		return nil, &HostConfigError{err.Error()}
 	}
 
+	// Default for Type is "json-file" and Config is empty {}
+	_logType, _logConfig := "json-file", make(map[string]string)
+
+	// Allows custom configuration via environment vars
+	for envKey, envVal := range container.Environment {
+		switch {
+		case envKey == "LOG_DRIVER":
+			_logType = envVal
+		case envKey == "LOG_TAG":
+			_logConfig["tag"] = envVal
+		case strings.HasPrefix(envKey, "LOG_CONFIG"):
+			// Split on semicolon.
+			// LOG_CONFIG_1="syslog-address=udp://127.0.0.1:514"
+			config := strings.Split(envVal, "=")
+			_logConfig[config[0]] = config[1]
+		}
+	}
+
+	logConfig := docker.LogConfig{
+		Type:   _logType,
+		Config: _logConfig,
+	}
+
 	hostConfig := &docker.HostConfig{
 		Links:        dockerLinkArr,
 		Binds:        binds,
+		LogConfig:    logConfig,
 		PortBindings: dockerPortMap,
 		VolumesFrom:  volumesFrom,
 	}

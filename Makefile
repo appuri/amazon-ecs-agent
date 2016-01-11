@@ -31,21 +31,21 @@ golang-base:
 # 'build-in-docker' builds the agent within a dockerfile and saves it to the ./out
 # directory
 build-in-docker: golang-base
-	@docker build -f scripts/dockerfiles/Dockerfile.build -t "amazon/amazon-ecs-agent-build:make" .
-	@docker run --net=none -v "$(shell pwd)/out:/out" -v "$(shell pwd):/go/src/github.com/aws/amazon-ecs-agent" "amazon/amazon-ecs-agent-build:make"
+	docker build -f scripts/dockerfiles/Dockerfile.build -t "amazon/amazon-ecs-agent-build:make" .
+	docker run --net=none -v "$(shell pwd)/out:/out" -v "$(shell pwd):/go/src/github.com/aws/amazon-ecs-agent" "amazon/amazon-ecs-agent-build:make"
 
 # 'docker' builds the agent dockerfile from the current sourcecode tree, dirty
 # or not
 docker: certs build-in-docker
-	@cd scripts && ./create-amazon-ecs-scratch
-	@docker build -f scripts/dockerfiles/Dockerfile.release -t "amazon/amazon-ecs-agent:make" .
-	@echo "Built Docker image \"amazon/amazon-ecs-agent:make\""
+	cd scripts && ./create-amazon-ecs-scratch
+	docker build -f scripts/dockerfiles/Dockerfile.release -t "amazon/amazon-ecs-agent:make" .
+	echo "Built Docker image \"amazon/amazon-ecs-agent:make\""
 
 # 'docker-release' builds the agent from a clean snapshot of the git repo in
 # 'RELEASE' mode
 docker-release: golang-base
-	@docker build -f scripts/dockerfiles/Dockerfile.cleanbuild -t "amazon/amazon-ecs-agent-cleanbuild:make" .
-	@docker run --net=none -v "$(shell pwd)/out:/out" -v "$(shell pwd):/src/amazon-ecs-agent" "amazon/amazon-ecs-agent-cleanbuild:make"
+	docker build -f scripts/dockerfiles/Dockerfile.cleanbuild -t "amazon/amazon-ecs-agent-cleanbuild:make" .
+	docker run --net=none -v "$(shell pwd)/out:/out" -v "$(shell pwd):/go/src/github.com/aws/amazon-ecs-agent" "amazon/amazon-ecs-agent-cleanbuild:make"
 
 # Release packages our agent into a "scratch" based dockerfile
 release: certs docker-release

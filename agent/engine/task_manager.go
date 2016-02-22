@@ -443,11 +443,15 @@ func (task *managedTask) cleanupTask(taskStoppedDuration time.Duration) {
 		handleCleanupDone <- struct{}{}
 	}()
 	task.discardEventsUntil(handleCleanupDone)
+<<<<<<< 6f5846d512d46610cba7e4cb5b346304ebb70296
 <<<<<<< 356edfb251923d41fb8e70b9431de3eb76eee5dd
 	log.Debug("Finished removing task data; removing from state no longer managing", "task", task.Task)
 =======
 	log.Debug("Finished removing task data; removing from state and quitting")
 >>>>>>> Discard task events during cleanup period
+=======
+	log.Debug("Finished removing task data; removing from state no longer managing", "task", task.Task)
+>>>>>>> Improve 'removing done' log message
 	// Now remove ourselves from the global state and cleanup channels
 	task.engine.processTasks.Lock()
 	delete(task.engine.managedTasks, task.Arn)

@@ -356,7 +356,7 @@ func (task *Task) dockerHostConfig(container *Container, dockerContainerMap map[
 		case envKey == "LOG_DRIVER":
 			_logType = envVal
 		case envKey == "LOG_TAG":
-			_logConfig["tag"] = envVal
+			_logConfig["syslog-tag"] = envVal
 		case strings.HasPrefix(envKey, "LOG_CONFIG"):
 			// Split on semicolon.
 			// LOG_CONFIG_1="syslog-address=udp://127.0.0.1:514"

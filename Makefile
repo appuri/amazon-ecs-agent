@@ -49,10 +49,10 @@ build-in-docker:
 
 # 'docker' builds the agent dockerfile from the current sourcecode tree, dirty
 # or not
-docker: certs build-in-docker pause-container-release cni-plugins
-	@cd scripts && ./create-amazon-ecs-scratch
-	@docker build -f scripts/dockerfiles/Dockerfile.release -t "amazon/amazon-ecs-agent:make" .
-	@echo "Built Docker image \"amazon/amazon-ecs-agent:make\""
+docker: certs build-in-docker
+	cd scripts && ./create-amazon-ecs-scratch
+	docker build -f scripts/dockerfiles/Dockerfile.release -t "quay.io/appuri/amazon-ecs-agent:1.14.2" .
+	echo "Built Docker image \"quay.io/appuri/amazon-ecs-agent:1.14.2\""
 
 # 'docker-release' builds the agent from a clean snapshot of the git repo in
 # 'RELEASE' mode

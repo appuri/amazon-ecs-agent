@@ -51,8 +51,8 @@ build-in-docker:
 # or not
 docker: certs build-in-docker
 	cd scripts && ./create-amazon-ecs-scratch
-	docker build -f scripts/dockerfiles/Dockerfile.release -t "quay.io/appuri/amazon-ecs-agent:1.14.2" .
-	echo "Built Docker image \"quay.io/appuri/amazon-ecs-agent:1.14.2\""
+	docker build -f scripts/dockerfiles/Dockerfile.release -t "quay.io/appuri/amazon-ecs-agent:1.14.5" .
+	echo "Built Docker image \"quay.io/appuri/amazon-ecs-agent:1.14.5\""
 
 # 'docker-release' builds the agent from a clean snapshot of the git repo in
 # 'RELEASE' mode
